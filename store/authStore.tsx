@@ -3,18 +3,20 @@ import { create } from 'zustand';
 
 interface AuthState {
   token: string | null;
-  setToken: (token: string) => void;
+  userName: string | null;
+  setAuth: (token: string, name: string) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   token: null,
-  setToken: (token) => {
-    setCookie('token_de_acesso', token, { maxAge: 60 * 60 * 24 * 7 });
-    set({ token });
+  userName: null,
+  setAuth: (token, name) => {
+    setCookie('token_de_acesso', token);
+    set({ token, userName: name });
   },
   logout: () => {
     deleteCookie('token_de_acesso');
-    set({ token: null });
+    set({ token: null, userName: null });
   },
 }));

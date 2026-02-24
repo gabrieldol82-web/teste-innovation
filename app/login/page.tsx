@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 export default function Login() {
 
-    const setToken = useAuthStore((state: any) => state.setToken);
+    const setAuth = useAuthStore((state: any) => state.setAuth);
     const router = useRouter();
     const [formData, setFormData] = useState({ email: '', senha: '' });
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,8 @@ export default function Login() {
             console.log(result);
 
             if (result.status === 1) {
-                setToken(result.token_de_acesso);
+
+                setAuth(result.token_de_acesso, result.dados_usuario.nome_usuario);
 
                 const Toast = Swal.mixin({
                     toast: true,
