@@ -10,7 +10,13 @@ interface ProductsProps {
     descricao: string;
 }
 
-export default function ProductCard({ product }: { product: ProductsProps }) {
+export default function ProductCard({ product, onViewDetails }: { product: ProductsProps, onViewDetails: (product: any) => void }) {
+
+  const precoFormatado = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(parseFloat(product.preco));
+  
   return (
     <div className="group relative max-w-sm overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-slate-100">
       <div className="relative aspect-square w-full overflow-hidden bg-slate-50">
@@ -37,9 +43,14 @@ export default function ProductCard({ product }: { product: ProductsProps }) {
         <p className="text-sm leading-relaxed text-slate-500 line-clamp-2">
           {product.descricao}
         </p>
+
+        <p className="text-sm font-semibold text-slate-700 mt-2">
+          {precoFormatado}
+        </p>
         
         <div className="pt-4">
-          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark">
+          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+            onClick={() => onViewDetails(product)}>
             Confira
           </button>
         </div>

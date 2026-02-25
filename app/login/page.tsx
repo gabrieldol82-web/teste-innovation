@@ -23,10 +23,12 @@ export default function Login() {
     const submitLogin = async (e: any) => {
         e.preventDefault();
 
+        const url = 'https://apihomolog.innovationbrindes.com.br/api/innova-dinamica/login/acessar';
+
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://apihomolog.innovationbrindes.com.br/api/innova-dinamica/login/acessar', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
