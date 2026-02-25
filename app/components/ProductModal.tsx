@@ -47,7 +47,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2">
-          <div className="relative aspect-square bg-slate-50">
+          <div className="relative aspect-square">
             <Image
               src={product.imagem}
               alt={product.nome}

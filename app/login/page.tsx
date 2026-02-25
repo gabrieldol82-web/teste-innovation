@@ -39,7 +39,7 @@ export default function Login() {
             const result = await response.json();
             console.log(result);
 
-            if (result.status === 1) {
+            if (result.status) {
 
                 setAuth(result.token_de_acesso, result.dados_usuario.nome_usuario);
 
