@@ -1,16 +1,8 @@
 import Image from 'next/image';
+import { ProductModel } from "../models/models";
 
-interface ProductsProps {
-    codigo: string;
-    nome: string;
-    referencia: string;
-    codigo_categoria: number;
-    imagem: string;
-    preco: string;
-    descricao: string;
-}
 
-export default function ProductCard({ product, onViewDetails }: { product: ProductsProps, onViewDetails: (product: any) => void }) {
+export default function ProductCard({ product, onViewDetails }: { product: ProductModel, onViewDetails: (product: ProductModel) => void }) {
 
   const precoFormatado = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -18,14 +10,15 @@ export default function ProductCard({ product, onViewDetails }: { product: Produ
   }).format(parseFloat(product.preco));
   
   return (
-    <div className="group relative max-w-sm overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl border border-slate-100">
-      <div className="relative aspect-square w-full overflow-hidden bg-slate-50">
+    <div className="group flex flex-col max-w-sm rounded-2xl bg-white shadow-sm border border-slate-100">
+      
+      <div className="relative w-full h-100 bg-white">
         <Image
           src={product.imagem}
           alt={product.nome}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-contain p-2 transition-transform duration-300 group-hover:scale-110"
+          className="object-contain p-2"
         />
         <div className="absolute right-2 top-2 rounded bg-slate-900/5 px-2 py-1 text-[10px] font-medium text-slate-500 backdrop-blur-sm">
           Ref: {product.referencia}
@@ -48,8 +41,8 @@ export default function ProductCard({ product, onViewDetails }: { product: Produ
           {precoFormatado}
         </p>
         
-        <div className="pt-4">
-          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+        <div className="mt-auto pt-4">
+          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark cursor-pointer"
             onClick={() => onViewDetails(product)}>
             Confira
           </button>

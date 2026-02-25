@@ -4,19 +4,22 @@ import { useAuthStore } from "@/store/authStore";
 import { useEffect, useMemo, useState } from "react";
 import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
+import { ProductModel } from "../models/models";
 import Header from "./../components/Header";
 
 type SortOption = "nome" | "preco-crescente" | "preco-decrescente" | "";
 
 export default function Produtos() {
     const token = useAuthStore((state) => state.token);
-    const [products, setProducts] = useState<any[]>([]);
+    const [products, setProducts] = useState<ProductModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [sortBy, setSortBy] = useState<SortOption>("");
-    const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
 
     const fetchProducts = async () => {
+        console.log("Token:", token);
         setIsLoading(true);
+        
         try {
             const response = await fetch('https://apihomolog.innovationbrindes.com.br/api/innova-dinamica/produtos/listar', {
                 method: 'GET',
@@ -88,7 +91,7 @@ export default function Produtos() {
                     </div>
                 ) : sortedProducts.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {sortedProducts.map((product: any) => (
+                        {sortedProducts.map((product: ProductModel) => (
                             <ProductCard key={product.codigo} product={product} onViewDetails={(product) => setSelectedProduct(product)} />
                         ))}
                     </div>
