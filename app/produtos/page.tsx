@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
 import { ProductModel } from "../models/models";
+import { productFetch } from "../services/productsService";
 import Header from "./../components/Header";
 
 type SortOption = "nome" | "preco-crescente" | "preco-decrescente" | "";
@@ -18,17 +19,13 @@ export default function Produtos() {
 
     const fetchProducts = async () => {
         console.log("Token:", token);
+
+        if(!token) return;
+
         setIsLoading(true);
         
         try {
-            const response = await fetch('https://apihomolog.innovationbrindes.com.br/api/innova-dinamica/produtos/listar', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-            const result = await response.json();
+            const result = await productFetch(token);
 
             setProducts(Array.isArray(result) ? result : []);
         } catch (error) {
