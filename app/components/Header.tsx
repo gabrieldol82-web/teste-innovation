@@ -7,9 +7,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Header() {
+
+  const pathname = usePathname();
+  if (pathname === '/login') return null;
 
   const userName = useAuthStore((state) => state.userName);
   const router = useRouter();
@@ -20,8 +23,8 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-brand-light text-white shadow-sm">
-      <div className="container mx-auto flex items-center justify-between px-4 py-2 md:px-8">
+    <header className="sticky top-0 z-50 w-full bg-brand-light text-black shadow-sm">
+      <nav className="container mx-auto flex items-center justify-between px-4 py-2 md:px-8">
         
         <div className="flex-shrink-0">
           <Link href="/produtos">
@@ -58,7 +61,7 @@ export default function Header() {
             <LogoutIcon />
           </button>
         </div>
-      </div>
+      </nav>
     </header>
   );
 }

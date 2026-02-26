@@ -6,7 +6,6 @@ import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
 import { useProducts } from "../hooks/useProducts";
 import { ProductModel } from "../models/models";
-import Header from "./../components/Header";
 
 type SortOption = "nome" | "preco-crescente" | "preco-decrescente" | "";
 
@@ -52,7 +51,6 @@ export default function Produtos() {
     if (error) {
         return (
             <div className="min-h-screen bg-slate-50">
-                <Header />
                 <div className="container mx-auto px-4 py-8">
                     <div className="flex flex-col items-center justify-center py-20">
                         <p className="text-red-500 font-medium">
@@ -71,8 +69,7 @@ export default function Produtos() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50">
-            <Header />
+        <section className="min-h-screen bg-slate-50">
             <div className="container mx-auto px-4 py-8">
                 
                 <div className="mb-8 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -133,6 +130,6 @@ export default function Produtos() {
                 isOpen={!!selectedProduct}
                 onClose={() => setSelectedProduct(null)}
             />
-        </div>
+        </section>
     );
 }
