@@ -1,9 +1,7 @@
-// app/layout.tsx
-"use client";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,15 +13,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      staleTime: 5 * 60 * 1000,
-    },
+export const metadata: Metadata = {
+  title: {
+    default: "Teste Front-end - Gabriel Dantas",
+    template: "%s | Product Manager",
   },
-});
+  description: "Desafio técnico Front-end. Acesso a dasboard de produtos",
+  keywords: ["Next.js", "TypeScript", "Dashboard de Produtos", "Catálogo Online", "Gerenciamento de Estoque"],
+  authors: [{ name: "Gabriel Dantas", url: "https://gabriel-dantas.vercel.app/" }],
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  alternates: {
+    canonical: "https://teste-innovation-gabriel.vercel.app",
+  },
+};
 
 export default function RootLayout({
   children,
@@ -35,9 +42,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryClientProvider client={queryClient}>
+         <Providers>
           {children}
-        </QueryClientProvider>
+        </Providers>
       </body>
     </html>
   );
