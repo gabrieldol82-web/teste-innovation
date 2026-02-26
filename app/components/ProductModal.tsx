@@ -1,11 +1,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { ProductModalProps } from '../models/models';
 
-interface ProductModalProps {
-  product: any;
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 export default function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   useEffect(() => {

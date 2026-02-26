@@ -14,3 +14,9 @@ export interface AuthState {
   setAuth: (token: string, name: string) => void;
   logout: () => void;
 }
+
+export interface ProductModalProps {
+  product: ProductModel | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
