@@ -31,7 +31,6 @@ export default function Produtos() {
     const { _hasHydrated } = useAuthStore();
 
     useEffect(() => {
-        console.log(isLoading);
         setCurrentPage(1);
     }, [sortBy, showFavorites]);
 

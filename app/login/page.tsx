@@ -29,7 +29,6 @@ export default function Login() {
 
         try {
             const result = await loginFecth(formData);
-            console.log(result);
 
             if (result.status === 1) {
 
