@@ -22,7 +22,7 @@ export default function Login() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const submitLogin = async (e: any) => {
+    const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setIsLoading(true);
@@ -67,6 +67,8 @@ export default function Login() {
                     src="/bg-login.jpg"
                     alt="Foto de background"
                     fill
+                    sizes="100vw"
+                    priority
                     className="object-cover opacity-50"
                 />
             </div>
@@ -105,11 +107,8 @@ export default function Login() {
                             />
                         </div>
 
-                        <div className="flex items-center justify-between px-2 text-[10px] text-white md:text-xs">
-                            <label className="flex items-center gap-1 cursor-pointer">
-                                <input type="checkbox" className="accent-brand-dark" />
-                                Manter logado
-                            </label>
+                        <div className="flex items-center justify-end px-2 text-[10px] text-white md:text-xs">
+                            
                             <button type="button" className="hover:underline">
                                 Esqueceu a senha?
                             </button>

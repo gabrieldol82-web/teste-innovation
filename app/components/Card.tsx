@@ -3,13 +3,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Image from 'next/image';
 import { useFavoritesStore } from '../../store/favoritesStore';
 import { ProductModel } from "../models/models";
+import formatCurrency from '../utils/format';
 
 export default function ProductCard({ product, onViewDetails }: { product: ProductModel, onViewDetails: (product: ProductModel) => void }) {
 
-  const precoFormatado = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(parseFloat(product.preco));
+  const precoFormatado = formatCurrency(product.preco);
 
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const isFavorite = useFavoritesStore((s) => s.isFavorite(product.codigo));

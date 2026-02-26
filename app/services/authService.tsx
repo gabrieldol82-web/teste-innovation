@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "../constants/api";
+import { LoginResponse } from "../models/models";
 
-export const loginFecth = async (credentials: { email: string; senha: string }) => {
+export const loginFecth = async (credentials: { email: string; senha: string }): Promise<LoginResponse> => {
     const url = `${API_BASE_URL}/login/acessar`;
     
     const response = await fetch(url, {

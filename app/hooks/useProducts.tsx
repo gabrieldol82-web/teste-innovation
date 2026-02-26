@@ -1,10 +1,9 @@
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { AuthState } from "../models/models";
 import { productFetch } from "../services/productsService";
 
 export const useProducts = () => {
-  const token = useAuthStore((state: AuthState) => state.token);
+  const token = useAuthStore((state) => state.token);
 
   return useQuery({
     queryKey: ["products", token],

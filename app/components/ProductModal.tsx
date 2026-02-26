@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { ProductModalProps } from '../models/models';
-
+import formatCurrency from '../utils/format';
 
 export default function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
 
             <div className="mt-auto pt-6">
               <p className="text-3xl font-bold text-slate-900">
-                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(parseFloat(product.preco))}
+                {formatCurrency(product.preco)}
               </p>
               <button className="mt-6 w-full rounded-xl bg-brand-light hover:bg-brand-dark py-4 text-sm font-semibold text-white transition-all cursor-pointer active:scale-95">
                 Solicitar Orçamento

@@ -26,3 +26,10 @@ export interface FavoritesStore {
   toggleFavorite: (codigo: string) => void;
   isFavorite: (codigo: string) => boolean;
 }
+
+export interface LoginResponse {
+  status: number;
+  token_de_acesso: string;
+  dados_usuario: { nome_usuario: string };
+  message?: string;
+}
