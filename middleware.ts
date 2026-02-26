@@ -25,6 +25,6 @@ export const config = {
      * Ignora rotas de API, arquivos estáticos (_next/static, _next/image),
      * e o ícone do favicon.ico.
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)',
   ],
 };
