@@ -62,6 +62,3 @@ middleware.ts      # Protecao de rotas (server-side)
 - **Busca com debounce:** Busca por nome/codigo usando o endpoint POST com filtros e debounce de 300-500ms.
 - **Dockerizacao:** Sem Dockerfile/docker-compose.
 - **Testes:** Sem testes unitarios (Vitest/Jest) e E2E (Playwright).
-- **SEO metadata:** Falta `<title>` e `<meta description>` nas paginas.
-- **Focus trap na Modal:** A modal fecha com Esc e tem `aria-modal`, mas o foco nao fica preso dentro dela.
-- **Selo "EXCLUSIVO!":** Elemento visual nos cards.
