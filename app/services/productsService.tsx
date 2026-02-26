@@ -12,6 +12,10 @@ export const productFetch = async (token: string): Promise<ProductModel[]> => {
         },
     });
     
+    if (response.status === 401) {
+        throw new Error('Sessão expirada');
+    }
+
     if (!response.ok) {
         throw new Error('Falha na comunicação com o servidor');
     }
