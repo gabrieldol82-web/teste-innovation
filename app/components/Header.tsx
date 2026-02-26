@@ -10,13 +10,14 @@ import { usePathname, useRouter } from "next/navigation";
 export default function Header() {
 
   const pathname = usePathname();
-  if (pathname === '/login') return null;
-
-  const userName = useAuthStore((state) => state.userName);
+  const userName = useAuthStore((state) => state.name);
+  const Logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
+  if (pathname === '/login') return null;
+
   const handleLogout = () => {
-    useAuthStore.getState().logout();
+    Logout();
     router.push('/login');
   }
 

@@ -7,3 +7,10 @@ export interface ProductModel {
     preco: string;
     descricao: string;
 }
+
+export interface AuthState {
+  token: string | null;
+  name: string | null;
+  setAuth: (token: string, name: string) => void;
+  logout: () => void;
+}

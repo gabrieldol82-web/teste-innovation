@@ -7,11 +7,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from 'sweetalert2';
+import { AuthState } from "../models/models";
 import { loginFecth } from "../services/authService";
 
 export default function Login() {
 
-    const setAuth = useAuthStore((state: any) => state.setAuth);
+    const setAuth = useAuthStore((state: AuthState) => state.setAuth);
     const router = useRouter();
     const [formData, setFormData] = useState({ email: '', senha: '' });
     const [isLoading, setIsLoading] = useState(false);
@@ -38,11 +39,11 @@ export default function Login() {
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
-                    timer: 1500,
+                    timer: 1000,
                 });
 
                 await Toast.fire({ icon: 'success', title: 'Login realizado!' });
-                router.push('/produtos')
+                router.push('/produtos');
             } else {
                 Swal.fire({
                     title: 'Ops...',

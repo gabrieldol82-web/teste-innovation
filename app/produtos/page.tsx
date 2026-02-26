@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthStore } from "@/store/authStore";
 import { Pagination, Stack } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import ProductCard, { ProductEskeleton } from "../components/Card";
@@ -16,18 +17,21 @@ export default function Produtos() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const { 
-        data: products = [], 
+        data: products, 
         isLoading, 
         error,
         refetch 
     } = useProducts();
 
+    const { _hasHydrated } = useAuthStore();
+
     useEffect(() => {
+        console.log(isLoading);
         setCurrentPage(1);
     }, [sortBy]);
 
     const sortedProducts = useMemo(() => {
-        const list = [...products]; 
+        const list = Array.isArray(products) ? [...products] : [];
 
         switch (sortBy) {
             case "nome":
@@ -47,6 +51,20 @@ export default function Produtos() {
     }, [sortedProducts, currentPage]);
 
     const totalPages = Math.ceil(sortedProducts.length / ITEMS_PER_PAGE);
+
+    if (!_hasHydrated || isLoading) {
+        return (
+            <section className="min-h-screen bg-slate-50">
+                <div className="container mx-auto px-4 py-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <ProductEskeleton key={i} />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     if (error) {
         return (
@@ -97,7 +115,7 @@ export default function Produtos() {
                             <ProductEskeleton key={i} />
                         ))}
                     </div>
-                ) : paginatedProducts.length > 0 ? (
+                ) : (
                     <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {paginatedProducts.map((product: ProductModel) => (
@@ -119,10 +137,6 @@ export default function Produtos() {
                             </div>
                         )}
                     </>
-                ) : (
-                    <div className="flex flex-col items-center justify-center py-20">
-                        <p className="text-slate-500 font-medium">Nenhum produto disponível no momento.</p>
-                    </div>
                 )}
             </div>
             <ProductModal
