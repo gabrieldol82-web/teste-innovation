@@ -24,8 +24,6 @@ export default function Login() {
     const submitLogin = async (e: any) => {
         e.preventDefault();
 
-        const url = 'https://apihomolog.innovationbrindes.com.br/api/innova-dinamica/login/acessar';
-
         setIsLoading(true);
 
         try {

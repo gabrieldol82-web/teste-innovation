@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Pagination, Stack } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
 import { useProducts } from "../hooks/useProducts";
@@ -12,8 +13,9 @@ type SortOption = "nome" | "preco-crescente" | "preco-decrescente" | "";
 export default function Produtos() {
     const [sortBy, setSortBy] = useState<SortOption>("");
     const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
+    const ITEMS_PER_PAGE = 4;
+    const [currentPage, setCurrentPage] = useState(1);
 
-    // Usando React Query
     const { 
         data: products = [], 
         isLoading, 
@@ -21,7 +23,9 @@ export default function Produtos() {
         refetch 
     } = useProducts();
 
-    
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [sortBy]);
 
     const sortedProducts = useMemo(() => {
         const list = [...products]; 
@@ -37,6 +41,13 @@ export default function Produtos() {
                 return list;
         }
     }, [products, sortBy]);
+
+    const paginatedProducts = useMemo(() => {
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        return sortedProducts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    }, [sortedProducts, currentPage]);
+
+    const totalPages = Math.ceil(sortedProducts.length / ITEMS_PER_PAGE);
 
     if (error) {
         return (
@@ -89,12 +100,28 @@ export default function Produtos() {
                             <ProductEskeleton key={i} />
                         ))}
                     </div>
-                ) : sortedProducts.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {sortedProducts.map((product: ProductModel) => (
-                            <ProductCard key={product.codigo} product={product} onViewDetails={(product) => setSelectedProduct(product)} />
-                        ))}
-                    </div>
+                ) : paginatedProducts.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {paginatedProducts.map((product: ProductModel) => (
+                                <ProductCard key={product.codigo} product={product} onViewDetails={(product) => setSelectedProduct(product)} />
+                            ))}
+                        </div>
+
+                        {totalPages > 1 && (
+                            <div className="mt-12 flex justify-center">
+                                <Stack spacing={2}>
+                                    <Pagination 
+                                        count={totalPages} 
+                                        page={currentPage} 
+                                        onChange={(_, value) => setCurrentPage(value)} 
+                                        variant="outlined" 
+                                        shape="rounded"
+                                    />
+                                </Stack>
+                            </div>
+                        )}
+                    </>
                 ) : (
                     <div className="flex flex-col items-center justify-center py-20">
                         <p className="text-slate-500 font-medium">Nenhum produto disponível no momento.</p>
