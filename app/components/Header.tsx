@@ -1,8 +1,6 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Image from 'next/image';
@@ -39,16 +37,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Ações - Lado Direito */}
         <div className="flex items-center gap-4">
-          <button className="p-2 hover:text-gray-600 rounded-full transition-colors relative">
-            <FavoriteBorderIcon />
-            {/* Badge para favoritos, se necessário */}
-            <span className="absolute top-1 right-1 bg-brand-green text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-              0
-            </span>
-          </button>
-          
           <button className="flex items-center gap-2 p-2 hover:text-gray-600 rounded-full transition-colors">
             <PersonOutlineIcon />
             <span className="hidden lg:block text-sm font-medium">{userName || "Minha Conta"}</span>
