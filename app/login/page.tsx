@@ -60,7 +60,7 @@ export default function Login() {
 
 
     return (
-        <main className="relative flex min-h-screen items-center justify-center bg-gray-100 p-4">
+        <section className="relative flex min-h-screen items-center justify-center bg-gray-100 p-4">
 
             <div className="absolute inset-0 z-0">
                 <Image
@@ -124,6 +124,6 @@ export default function Login() {
                     </form>
                 </div>
             </div>
-        </main>
+        </section>
     );
 }
