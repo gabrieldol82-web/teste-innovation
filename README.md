@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Innovation Brindes - Teste Front-end
 
-## Getting Started
+Mini-aplicacao com autenticacao e listagem de produtos, construida com Next.js 16 (App Router).
 
-First, run the development server:
+## Tech Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Zustand** - Gerenciamento de estado global (auth + favoritos)
+- **React Query** - Cache, revalidacao e estados de loading/erro
+- **Tailwind CSS 4** - Estilizacao utility-first
+- **MUI Icons** - Icones (favoritos, login, logout)
+- **SweetAlert2** - Feedbacks visuais no login
+
+## Como rodar o projeto
 
 ```bash
+# 1. Clonar o repositorio
+git clone https://github.com/SEU_USUARIO/teste-frontend-innovation.git
+cd teste-frontend-innovation
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Rodar em desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse [http://localhost:3000](http://localhost:3000). A aplicacao redireciona automaticamente para `/login`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Credenciais de teste:** `dinamica` / `123`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estrutura do projeto
 
-## Learn More
+```
+app/
+  components/      # Componentes reutilizaveis (Card, Header, ProductModal)
+  constants/       # Constantes (URL base da API)
+  hooks/           # Custom hooks (useProducts com React Query)
+  login/           # Pagina de login
+  models/          # Interfaces TypeScript
+  produtos/        # Pagina de listagem de produtos
+  services/        # Camada de servicos (chamadas HTTP)
+  utils/           # Funcoes utilitarias (formatCurrency)
+store/             # Stores Zustand (auth, favoritos)
+middleware.ts      # Protecao de rotas (server-side)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Decisoes tecnicas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Cookie + localStorage para autenticacao:** O cookie (`token_de_acesso`) e lido pelo middleware no server-side para proteger rotas. O localStorage e usado pelo Zustand no client-side para fornecer o token nas chamadas de API. Essa duplicacao e necessaria porque o middleware nao tem acesso ao localStorage.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **React Query para data fetching:** Substituiu o padrao `useState + useEffect` para buscar produtos. Fornece cache automatico, estados de loading/erro, e a query so dispara quando o token esta disponivel (`enabled: !!token`).
 
-## Deploy on Vercel
+- **Zustand com persist:** Tanto o store de autenticacao quanto o de favoritos persistem no localStorage, mantendo o estado entre reloads.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Tratamento de 401:** O service de produtos detecta respostas 401 e o hook `useProducts` forca logout + redirect automatico para `/login`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Formatacao centralizada:** Precos sao formatados via `formatCurrency()` em `utils/format.tsx`, evitando duplicacao entre Card e ProductModal.
+
+## O que ficou pendente
+
+- **Busca com debounce:** Busca por nome/codigo usando o endpoint POST com filtros e debounce de 300-500ms.
+- **Dockerizacao:** Sem Dockerfile/docker-compose.
+- **Testes:** Sem testes unitarios (Vitest/Jest) e E2E (Playwright).
+- **SEO metadata:** Falta `<title>` e `<meta description>` nas paginas.
+- **Focus trap na Modal:** A modal fecha com Esc e tem `aria-modal`, mas o foco nao fica preso dentro dela.
+- **Selo "EXCLUSIVO!":** Elemento visual nos cards.
