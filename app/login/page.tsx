@@ -30,7 +30,7 @@ export default function Login() {
             const result = await loginFecth(formData);
             console.log(result);
 
-            if (result.status) {
+            if (result.status === 1) {
 
                 setAuth(result.token_de_acesso, result.dados_usuario.nome_usuario);
 
