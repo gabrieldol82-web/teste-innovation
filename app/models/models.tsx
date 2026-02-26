@@ -20,3 +20,9 @@ export interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+export interface FavoritesStore {
+  favorites: string[];
+  toggleFavorite: (codigo: string) => void;
+  isFavorite: (codigo: string) => boolean;
+}

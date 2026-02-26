@@ -1,11 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-
-interface FavoritesStore {
-  favorites: string[];
-  toggleFavorite: (codigo: string) => void;
-  isFavorite: (codigo: string) => boolean;
-}
+import { FavoritesStore } from "../app/models/models";
 
 export const useFavoritesStore = create<FavoritesStore>()(
   persist(

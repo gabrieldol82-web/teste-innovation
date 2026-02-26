@@ -36,20 +36,20 @@ export default function Produtos() {
     }, [sortBy, showFavorites]);
 
     const sortedProducts = useMemo(() => {
-    const list = Array.isArray(products) ? [...products] : [];
-    const filtered = showFavorites ? list.filter(p => favorites.includes(p.codigo)) : list;
+        const list = Array.isArray(products) ? [...products] : [];
+        const filtered = showFavorites ? list.filter(p => favorites.includes(p.codigo)) : list;
 
-    switch (sortBy) {
-        case "nome":
-            return filtered.sort((a, b) => a.nome.localeCompare(b.nome));
-        case "preco-crescente":
-            return filtered.sort((a, b) => parseFloat(a.preco) - parseFloat(b.preco));
-        case "preco-decrescente":
-            return filtered.sort((a, b) => parseFloat(b.preco) - parseFloat(a.preco));
-        default:
-            return filtered;
-    }
-}, [products, sortBy, showFavorites, favorites]);
+        switch (sortBy) {
+            case "nome":
+                return filtered.sort((a, b) => a.nome.localeCompare(b.nome));
+            case "preco-crescente":
+                return filtered.sort((a, b) => parseFloat(a.preco) - parseFloat(b.preco));
+            case "preco-decrescente":
+                return filtered.sort((a, b) => parseFloat(b.preco) - parseFloat(a.preco));
+            default:
+                return filtered;
+        }
+    }, [products, sortBy, showFavorites, favorites]);
 
     const paginatedProducts = useMemo(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
