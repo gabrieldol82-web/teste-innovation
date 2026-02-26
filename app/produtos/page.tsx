@@ -1,8 +1,11 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Pagination, Stack } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
+import { useFavoritesStore } from '../../store/favoritesStore';
 import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
 import { useProducts } from "../hooks/useProducts";
@@ -15,6 +18,8 @@ export default function Produtos() {
     const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
     const ITEMS_PER_PAGE = 4;
     const [currentPage, setCurrentPage] = useState(1);
+    const [showFavorites, setShowFavorites] = useState(false);
+    const favorites = useFavoritesStore((s) => s.favorites);
 
     const { 
         data: products, 
@@ -28,22 +33,23 @@ export default function Produtos() {
     useEffect(() => {
         console.log(isLoading);
         setCurrentPage(1);
-    }, [sortBy]);
+    }, [sortBy, showFavorites]);
 
     const sortedProducts = useMemo(() => {
-        const list = Array.isArray(products) ? [...products] : [];
+    const list = Array.isArray(products) ? [...products] : [];
+    const filtered = showFavorites ? list.filter(p => favorites.includes(p.codigo)) : list;
 
-        switch (sortBy) {
-            case "nome":
-                return list.sort((a, b) => a.nome.localeCompare(b.nome));
-            case "preco-crescente":
-                return list.sort((a, b) => parseFloat(a.preco) - parseFloat(b.preco));
-            case "preco-decrescente":
-                return list.sort((a, b) => parseFloat(b.preco) - parseFloat(a.preco));
-            default:
-                return list;
-        }
-    }, [products, sortBy]);
+    switch (sortBy) {
+        case "nome":
+            return filtered.sort((a, b) => a.nome.localeCompare(b.nome));
+        case "preco-crescente":
+            return filtered.sort((a, b) => parseFloat(a.preco) - parseFloat(b.preco));
+        case "preco-decrescente":
+            return filtered.sort((a, b) => parseFloat(b.preco) - parseFloat(a.preco));
+        default:
+            return filtered;
+    }
+}, [products, sortBy, showFavorites, favorites]);
 
     const paginatedProducts = useMemo(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -94,6 +100,20 @@ export default function Produtos() {
                     <h1 className="text-2xl font-bold text-slate-800">Nossos Produtos</h1>
                     
                     <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => setShowFavorites(prev => !prev)}
+                            className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                                showFavorites 
+                                ? 'border-red-300 bg-red-50 text-red-500' 
+                                : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                            }`}
+                        >
+                            {showFavorites 
+                                ? <FavoriteIcon fontSize="small" /> 
+                                : <FavoriteBorderIcon fontSize="small" />
+                            }
+                            Favoritos {showFavorites && `(${favorites.length})`}
+                        </button>
                         <label htmlFor="sort" className="text-sm font-medium text-slate-600">Ordenar por:</label>
                         <select 
                             id="sort"
@@ -107,6 +127,7 @@ export default function Produtos() {
                             <option value="preco-decrescente">Maior Preço</option>
                         </select>
                     </div>
+                    
                 </div>
 
                 {isLoading ? (
