@@ -1,45 +1,27 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import ProductCard, { ProductEskeleton } from "../components/Card";
 import ProductModal from "../components/ProductModal";
+import { useProducts } from "../hooks/useProducts";
 import { ProductModel } from "../models/models";
-import { productFetch } from "../services/productsService";
 import Header from "./../components/Header";
 
 type SortOption = "nome" | "preco-crescente" | "preco-decrescente" | "";
 
 export default function Produtos() {
-    const token = useAuthStore((state) => state.token);
-    const [products, setProducts] = useState<ProductModel[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [sortBy, setSortBy] = useState<SortOption>("");
     const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
 
-    const fetchProducts = async () => {
-        console.log("Token:", token);
+    // Usando React Query
+    const { 
+        data: products = [], 
+        isLoading, 
+        error,
+        refetch 
+    } = useProducts();
 
-        if(!token) return;
-
-        setIsLoading(true);
-        
-        try {
-            const result = await productFetch(token);
-
-            setProducts(Array.isArray(result) ? result : []);
-        } catch (error) {
-            console.error('Erro ao buscar produtos:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (token) {
-            fetchProducts();
-        }
-    }, [token]);
+    
 
     const sortedProducts = useMemo(() => {
         const list = [...products]; 
@@ -55,6 +37,27 @@ export default function Produtos() {
                 return list;
         }
     }, [products, sortBy]);
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-slate-50">
+                <Header />
+                <div className="container mx-auto px-4 py-8">
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <p className="text-red-500 font-medium">
+                            Erro ao carregar produtos. 
+                            <button 
+                                onClick={() => refetch()}
+                                className="ml-2 text-blue-500 underline"
+                            >
+                                Tentar novamente
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-slate-50">
