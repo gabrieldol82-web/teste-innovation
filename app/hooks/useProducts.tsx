@@ -7,15 +7,7 @@ export const useProducts = () => {
 
   return useQuery({
     queryKey: ["products", token],
-    queryFn: async () => {
-      const response = await productFetch(token!);
-      
-      if (response && response.status === "error") {
-        throw new Error(response.mensagem || "Falha na autenticação");
-      }
-      
-      return response; 
-    },
+    queryFn: () => productFetch(token!),
     enabled: !!token,
     retry: false,
   });

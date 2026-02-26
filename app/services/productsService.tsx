@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../constants/api";
-import { LoginResponse } from "../models/models";
+import { ProductModel } from "../models/models";
 
-export const productFetch = async (token: string): Promise<LoginResponse[]> => {
+export const productFetch = async (token: string): Promise<ProductModel[]> => {
     const url = `${API_BASE_URL}/produtos/listar`;
 
     const response = await fetch(url, {
