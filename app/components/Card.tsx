@@ -43,9 +43,9 @@ export default function ProductCard({ product, onViewDetails }: { product: Produ
         <span className="mb-1 text-[10px] font-semibold uppercase tracking-wider text-blue-600">
           Cód: {product.codigo}
         </span>
-        <h3 className="text-lg font-bold text-slate-800 tracking-tight">
+        <p className="text-lg font-bold text-slate-800 tracking-tight">
           {product.nome}
-        </h3>
+        </p>
         <p className="text-sm leading-relaxed text-slate-500 line-clamp-2">
           {product.descricao}
         </p>
@@ -53,7 +53,7 @@ export default function ProductCard({ product, onViewDetails }: { product: Produ
           {precoFormatado}
         </p>
         <div className="mt-auto pt-4">
-          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark cursor-pointer"
+          <button className="w-full rounded-lg bg-brand-light py-3 text-sm font-semibold text-black transition-colors hover:bg-brand-dark cursor-pointer"
             onClick={() => onViewDetails(product)}>
             Confira
           </button>
