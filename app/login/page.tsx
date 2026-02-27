@@ -74,7 +74,7 @@ export default function Login() {
             </div>
 
             <div className="z-10 w-full max-w-[400px] space-y-6 text-center">
-                <h1 className="text-2xl font-bold text-brand-dark md:text-2xl">
+                <h1 className="text-3xl font-bold text-brand-dark md:text-4xl">
                     Bem-vindo a Innovation Brindes
                 </h1>
 
