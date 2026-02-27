@@ -57,6 +57,11 @@ middleware.ts      # Protecao de rotas (server-side)
 
 - **Formatacao centralizada:** Precos sao formatados via `formatCurrency()` em `utils/format.tsx`, evitando duplicacao entre Card e ProductModal.
 
+## Lighthouse
+
+![Lighthouse Scores](public/lighthouse.png)
+
+
 ## O que ficou pendente
 
 - **Busca com debounce:** Busca por nome/codigo usando o endpoint POST com filtros e debounce de 300-500ms.
