@@ -22,7 +22,9 @@ export const metadata: Metadata = {
   description: "Desafio técnico Front-end. Acesso a dasboard de produtos",
   keywords: ["Next.js", "TypeScript", "Dashboard de Produtos", "Catálogo Online", "Gerenciamento de Estoque"],
   authors: [{ name: "Gabriel Dantas", url: "https://gabriel-dantas.vercel.app/" }],
-
+  icons: {
+    icon: "/logo.png",
+  },
   robots: {
     index: true,
     follow: true,
